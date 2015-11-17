@@ -44,11 +44,8 @@ with tf.variable_scope("root", initializer=tf.constant_initializer(0.5)) as scop
                            num_proj=num_proj)
   
   # initial state
-  state = tf.zeros([batch_size, state_size])
-
-# fix this later to have an initial state to be jointly learnable instead of a constant all-zero
-#  state_init = tf.Variable(tf.zeros([state_size]))
-#  state = tf.reshape(tf.tile(state_init, batch_size), [batch_size, state_size])
+  state_init = tf.Variable(tf.zeros([1, state_size]))
+  state = tf.tile(state_init, [batch_size, 1])
 
   # input seq, i.e. [(, ), (, (, ), ), ...0, 0], 1-hot encoded
   input_seq = tf.placeholder(tf.float32, [None, example_length, input_size])
