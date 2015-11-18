@@ -78,16 +78,9 @@ For evaluation, I evaluate the performance once every 100 epochs.
 
 ## Results
 
-The results are not very good, so far I can only get it to work with
-parenthesis up to length of 6, and I believe it is just memorizing all possible
-combinations up to length of 6 rather than learning something more general.
+1. In matching.py, we use a single layer lstm and the result isn't as good, can only go to length of 8
 
-I have some hypothesis why the results are bad:
-
-1. The reward structure only reward the RNN at the end of the computation via
-true / false. However at each intermediate step we can also detect if the
-sequence prefix is correct, this is not currently being expressed in the model.
-2. Maybe a stacked and deep RNN would perform better than a flat one
+2. In matching2.py, we use a stacked lstm and the result is better, can go up to length of 30
 
 ## Remarks
 Hope this is helpful! I'm still new to TF so I probably can't answer any questions on TF reliably. Direct all questions to the TF discussion group on google.

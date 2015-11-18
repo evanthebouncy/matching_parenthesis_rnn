@@ -14,7 +14,7 @@ from tensorflow.models.rnn import rnn_cell
 import data_gen as dg
 
 # the only length this model can handle before gradiant vanishes
-example_length = 6
+example_length = 8
 
 # initialize stuff
 
@@ -88,10 +88,14 @@ with tf.variable_scope("root", initializer=tf.constant_initializer(0.5)) as scop
     # do evaluation every 100 epochs
     if (i % 100 == 0):
       print("====current accuracy==== at epoch ", i)
+      pos_data, pos_label = dg.gen_data_batch(100, example_length, pos_neg = True)
+      neg_data, neg_label  = dg.gen_data_batch(100, example_length, pos_neg = False)
       correct_prediction = tf.equal(tf.argmax(output_label,1), tf.argmax(output_label_,1))
       accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-      res = sess.run([accuracy], feed_dict={input_seq: dat, output_label_: lab})
-      print(res)
+      res = sess.run([accuracy], feed_dict={input_seq: pos_data, output_label_: pos_label})
+      print("pos accuracy: ", res)
+      res = sess.run([accuracy], feed_dict={input_seq: neg_data, output_label_: neg_label})
+      print("neg accuracy: ", res)
     # continuously train at every epoch
     sess.run(train_step, feed_dict={input_seq: dat, output_label_: lab})
 
